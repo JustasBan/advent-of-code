@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Program {  
     public static void main(String[] args)
     { 
@@ -2018,11 +2021,16 @@ public class Program {
         };
 
         int increases = 0;
+        List<Integer> list = new ArrayList<Integer>();  
 
-        for(int i=input.length-1; i>0; i=i-1)
-        {
-            if(input[i] > input[i-1])
-            {
+        for(int i = 0; i < input.length-2; i++){
+
+            list.add(input[i]+input[i+1]+input[i+2]);
+        }
+
+        for(int i = 1; i < list.size(); i++){
+
+            if(list.get(i) > list.get(i-1)){
                 increases++;
             }
         }
