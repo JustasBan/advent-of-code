@@ -1,8 +1,10 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Program {  
-    public static void main(String[] args)
+//first day
+
+public class Program1 {  
+    public static void main1(String[] args)
     { 
         int[] input = {
             103,
