@@ -1,7 +1,7 @@
 //2nd day
 
-public class Program2 {
-    public static void main(String[] args){
+public class Day2 {
+    public static void main(){
 
         String[] input={
             "forward 1",
@@ -1015,27 +1015,27 @@ public class Program2 {
             "forward 2"
         };
 
-        int horizont = 0, depth = 0;
+        int horizont = 0, depth = 0, aim = 0;
 
         for (String string : input) {
 
             int num = Integer.parseInt(string.split(" ")[1]);
             
-
             if(string.contains("forward")){
 
                 horizont += num;
+                depth += (aim * num);
             }
             else{
 
                 if(string.contains("down")){
 
-                    depth += num;
+                    aim += num;
                 }
                 else{
 
                     if(string.contains("up")){
-                        depth -= num;
+                        aim -= num;
                     }
                 }
             }

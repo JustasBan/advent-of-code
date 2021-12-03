@@ -3,7 +3,7 @@ import java.util.List;
 
 //first day
 
-public class Program1 {  
+public class Day1 {  
     public static void main1(String[] args)
     { 
         int[] input = {
