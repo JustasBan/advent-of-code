@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 //3rd day
 
 public class Day3 {
@@ -1021,17 +1024,26 @@ public class Day3 {
             "01010"
         };
 
-        String gamma_bin = "", epsilon_bin = "";
-        Character one = '1';
+        List<String> listOxy = new ArrayList<String>();  
+        List<String> listCO2 = new ArrayList<String>();  
 
-        for (int i = 0; i < input1[0].length(); i++) {
+        for (String string : input1) {
+            listOxy.add(string);
+            listCO2.add(string);
+        }
+        
+        String oxygen_bin = "", co2_bin = "";
+        Character one = '1', zero = '0';
+        int len = listOxy.get(0).length();
+
+        for (int i = 0; i < len; i++) {
 
             int zeros = 0, ones = 0;
 
-            //calc numbers in column i
-            for (int j = 0; j< input1.length; j++){
+            //calc numbers in column i in oxy list
+            for (int j = 0; j< listOxy.size(); j++){
 
-                if(one.equals(input1[j].charAt(i))){
+                if(one.equals(listOxy.get(j).charAt(i))){
                     ones++;
                 }
                 else{
@@ -1039,21 +1051,132 @@ public class Day3 {
                 }
             }
 
+            //filter out the listOxy
+            List<String> newlistOxy = new ArrayList<String>();
+
             if(ones>zeros){
 
-                gamma_bin = gamma_bin.concat("1");
-                epsilon_bin = epsilon_bin.concat("0");
+                if(listOxy.size() != 0){
+
+                    for (String string : listOxy) {
+
+                        if(one.equals(string.charAt(i))){
+
+                            newlistOxy.add(string);
+                        }
+                    }
+                }
             }
             else{
 
-                epsilon_bin = epsilon_bin.concat("1");
-                gamma_bin = gamma_bin.concat("0");
+                if(ones<zeros){
+                    
+                    if(listOxy.size() != 0){
+
+                        for (String string : listOxy) {
+
+                            if(zero.equals(string.charAt(i))){
+                            
+                                newlistOxy.add(string);
+                            }
+                        }
+                    }
+                }
+                else{
+
+                    if(listOxy.size() != 0){
+                        
+                        for (String string : listOxy) {
+
+                            if(one.equals(string.charAt(i))){
+
+                                newlistOxy.add(string);
+                            }
+                        }
+                    }
+                }
             }
+
+            if(listOxy.size() > 1)
+                listOxy = newlistOxy;
+            
+            System.out.println(listOxy.toString());
+
         }
 
-        int epsilon = Integer.parseInt(epsilon_bin, 2),
-            gamma = Integer.parseInt(gamma_bin, 2);
+        for (int i = 0; i < len; i++) {
 
-        System.out.println(epsilon*gamma);
+            int zeros = 0, ones = 0;
+
+            //calc numbers in column i in co2 list
+            for (int j = 0; j< listCO2.size(); j++){
+
+                if(one.equals(listCO2.get(j).charAt(i))){
+                    ones++;
+                }
+                else{
+                    zeros++;
+                }
+            }
+
+            //filter out the co2 list
+            List<String> newlistCO2 = new ArrayList<String>();
+
+            if(ones>zeros){
+
+                if(listCO2.size() > 1){
+
+                    for (String string : listCO2) {
+
+                        if(zero.equals(string.charAt(i))){
+
+                            newlistCO2.add(string);
+                        }
+                    }
+                }
+            }
+            else{
+
+                if(ones<zeros){
+                    
+                    if(listCO2.size() > 1){
+
+                        for (String string : listCO2) {
+
+                            if(one.equals(string.charAt(i))){
+                            
+                                newlistCO2.add(string);
+                            }
+                        }
+                    }
+                }
+                else{
+
+                    if(listCO2.size() > 1){
+                        
+                        for (String string : listCO2) {
+
+                            if(zero.equals(string.charAt(i))){
+
+                                newlistCO2.add(string);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if(listCO2.size() > 1)
+                listCO2 = newlistCO2;
+
+            System.out.println(listCO2.toString());
+        }
+
+        oxygen_bin = listOxy.get(0);
+        co2_bin = listCO2.get(0);
+
+        int oxygen = Integer.parseInt(oxygen_bin, 2),
+            co2 = Integer.parseInt(co2_bin, 2);
+
+            System.out.println(oxygen*co2);
     }
 }
