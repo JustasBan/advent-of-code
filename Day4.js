@@ -80,6 +80,7 @@ let position = (arr, find) => {
     })
 }
 
+//checking collumns for win
 let checkCol = arr => {
     
     let y=-1
@@ -92,20 +93,21 @@ let checkCol = arr => {
             if(arr[j][i].isMarked === true){
                 n++
             }
-        }
 
-        if(n === 5){
+            if(n === 5){
 
             y = j
             break
+            }
         }
-        
+
         n = 0
     }
 
     return y
 }
 
+//checking rows for win
 let checkRow = arr => {
     
     let x=-1
@@ -132,41 +134,46 @@ let checkRow = arr => {
     return x
 }
 
-let boardWinner, propsWinner, won = false
+let win, propsWinner
 
 numbers.forEach( (number) => {
 
     //search for number:
 
-    boards.forEach( (boards_val) => {
+    boards.forEach( (boards_val, index_board) => {
 
         let found = position(boards_val, number)
 
         //if we find number in board, we mark it
-        if(found.col > -1 && found.row > -1  && won === false){
+        if( found.col > -1 && found.row > -1){
 
             boards_val[found.row][found.col].isMarked = true;
 
             //then we check for marked rows
             let row_result = checkRow(boards_val)
+            let alreadyFound = false
 
-            if(row_result > -1 && won === false){
+            if( row_result > -1 && !alreadyFound){
 
-                boardWinner = boards_val
+                alreadyFound = true
                 propsWinner = number
 
-                won = true
+                //remove won board and assign it to win variable
+                boards = boards.filter(item => item != boards_val)
+                win = boards_val
             }
 
             //check for marked cols
             let col_result = checkCol(boards_val)
 
-            if(col_result > -1 && won === false){
+            if( col_result > -1 && !alreadyFound){
 
-                boardWinner = boards_val
                 propsWinner = number
-
-                won = true
+                alreadyFound = true
+                
+                //remove won board and assign it to win variable
+                boards = boards.filter(item => item != boards_val)
+                win = boards_val
             }
         }
     })
@@ -175,7 +182,7 @@ numbers.forEach( (number) => {
 //finding sum of unmarked winner board values
 let sum = 0
 
-boardWinner.map( (elements) => {
+win.map( (elements) => {
 
     elements.map((innerElem) => {
 
@@ -191,7 +198,9 @@ console.log(sum*propsWinner);
 //output:
 
 // convert JSON object to a string
-const data = JSON.stringify(boards);
+
+
+const data = JSON.stringify(win)
 
 // write file to disk
 fs.writeFile('./out.json', data, 'utf8', (err) => {
